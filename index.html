@@ -41,9 +41,9 @@
 </head>
 <body>
   <header>
-    <button id="previous" type="button">Previous week</button>
+    <button id="previous" type="button">❮</button>
     <h1 id="week-title"></h1>
-    <button id="next" type="button">Next week</button>
+    <button id="next" type="button">❯</button>
   </header>
 
   <iframe id="week-plan" title="Weekly plan"></iframe>
@@ -75,7 +75,7 @@
       const filename = `Uke ${weekNumber}.html`;
 
       document.getElementById("week-title").textContent =
-        `Week ${weekNumber}, ${year}`;
+        `Uke ${weekNumber}, ${year}`;
 
       document.getElementById("week-plan").src =
         `ukeplaner/${year}/${encodeURIComponent(filename)}`;
