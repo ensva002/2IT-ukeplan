@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Weekly Plan</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: system-ui, sans-serif;
+    }
+
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1rem;
+      padding: 1rem;
+    }
+
+    h1 {
+      min-width: 12rem;
+      margin: 0;
+      text-align: center;
+      font-size: 1.25rem;
+    }
+
+    button {
+      padding: 0.6rem 1rem;
+      font: inherit;
+      cursor: pointer;
+    }
+
+    iframe {
+      display: block;
+      width: 100%;
+      height: calc(100vh - 5rem);
+      border: 0;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <button id="previous" type="button">Previous week</button>
+    <h1 id="week-title"></h1>
+    <button id="next" type="button">Next week</button>
+  </header>
+
+  <iframe id="week-plan" title="Weekly plan"></iframe>
+
+  <script>
+    // Find the ISO week number and ISO week-year for a date.
+    function getISOWeekInfo(date) {
+      const thursday = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+      thursday.setHours(0, 0, 0, 0);
+      thursday.setDate(thursday.getDate() + 3 - ((thursday.getDay() + 6) % 7));
+
+      const year = thursday.getFullYear();
+      const jan4 = new Date(year, 0, 4);
+      const firstThursday = new Date(year, 0, 4);
+      firstThursday.setDate(jan4.getDate() + 3 - ((jan4.getDay() + 6) % 7));
+
+      const week = 1 + Math.round((thursday - firstThursday) / (7 * 24 * 60 * 60 * 1000));
+      return { year, week };
+    }
+
+    // Keep the selected date at the start of its week.
+    const selectedDate = new Date();
+    selectedDate.setHours(0, 0, 0, 0);
+    selectedDate.setDate(selectedDate.getDate() - ((selectedDate.getDay() + 6) % 7));
+
+    function showWeek() {
+      const { year, week } = getISOWeekInfo(selectedDate);
+      const weekNumber = String(week);
+      const filename = `uke ${weekNumber}.html`;
+
+      document.getElementById("week-title").textContent =
+        `Week ${weekNumber}, ${year}`;
+
+      document.getElementById("week-plan").src =
+        `ukeplaner/${year}/${encodeURIComponent(filename)}`;
+    }
+
+    document.getElementById("previous").addEventListener("click", () => {
+      selectedDate.setDate(selectedDate.getDate() - 7);
+      showWeek();
+    });
+
+    document.getElementById("next").addEventListener("click", () => {
+      selectedDate.setDate(selectedDate.getDate() + 7);
+      showWeek();
+    });
+
+    showWeek();
+  </script>
+</body>
+</html>
