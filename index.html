@@ -10,26 +10,36 @@
       font-family: system-ui, sans-serif;
     }
 
-    header {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 1rem;
-      padding: 1rem;
-    }
+	header {
+	  display: grid;
+	  grid-template-columns: 1fr auto 1fr;
+	  align-items: center;
+	  padding: 1rem;
+	}
 
-    h1 {
-      min-width: 12rem;
-      margin: 0;
-      text-align: center;
-      font-size: 1.25rem;
-    }
+	.header-left {
+	  justify-self: start;
+	}
 
-    button {
-      padding: 0.6rem 1rem;
-      font: inherit;
-      cursor: pointer;
-    }
+	.week-navigation {
+	  display: flex;
+	  align-items: center;
+	  justify-content: center;
+	  gap: 1rem;
+	}
+
+	h1 {
+	  min-width: 12rem;
+	  margin: 0;
+	  text-align: center;
+	  font-size: 1.25rem;
+	}
+
+	button {
+	  padding: 0.6rem 1rem;
+	  font: inherit;
+	  cursor: pointer;
+	}
 
     iframe {
       display: block;
@@ -59,11 +69,10 @@
 </head>
 <body>
 <header>
+  <button id="this-week" type="button">Denne uken</button>
   <button id="previous" type="button" aria-label="Previous week">❮</button>
   <h1 id="week-title"></h1>
   <button id="next" type="button" aria-label="Next week">❯</button>
-  <button id="this-week" type="button">Denne uken</button>
-  <button id="print" type="button">Print</button>
 </header>
 
   <iframe id="week-plan" title="Weekly plan"></iframe>
@@ -119,10 +128,6 @@
       showWeek();
     });
     
-    document.getElementById("print").addEventListener("click", () => {
-      window.print();
-    });
-
     showWeek();
   </script>
 </body>
