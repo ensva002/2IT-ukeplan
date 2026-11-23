@@ -37,14 +37,34 @@
       height: calc(100vh - 5rem);
       border: 0;
     }
+    @media print {
+      header {
+        display: none !important;
+      }
+    
+      html,
+      body {
+        margin: 0;
+        height: auto;
+      }
+    
+      iframe {
+        display: block;
+        width: 100%;
+        height: 100vh;
+        border: 0;
+      }
+    }
   </style>
 </head>
 <body>
-  <header>
-    <button id="previous" type="button">❮</button>
-    <h1 id="week-title"></h1>
-    <button id="next" type="button">❯</button>
-  </header>
+<header>
+  <button id="previous" type="button" aria-label="Previous week">❮</button>
+  <h1 id="week-title"></h1>
+  <button id="next" type="button" aria-label="Next week">❯</button>
+  <button id="this-week" type="button">Denne uken</button>
+  <button id="print" type="button">Print</button>
+</header>
 
   <iframe id="week-plan" title="Weekly plan"></iframe>
 
@@ -89,6 +109,18 @@
     document.getElementById("next").addEventListener("click", () => {
       selectedDate.setDate(selectedDate.getDate() + 7);
       showWeek();
+    });
+
+    document.getElementById("this-week").addEventListener("click", () => {
+      const today = new Date();
+      selectedDate.setFullYear(today.getFullYear(), today.getMonth(), today.getDate());
+      selectedDate.setHours(0, 0, 0, 0);
+      selectedDate.setDate(selectedDate.getDate() - ((selectedDate.getDay() + 6) % 7));
+      showWeek();
+    });
+    
+    document.getElementById("print").addEventListener("click", () => {
+      window.print();
     });
 
     showWeek();
